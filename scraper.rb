@@ -4,20 +4,23 @@ require 'sqlite3'
 require 'logger'
 require 'date'
 require 'cgi'
+require 'selenium-webdriver'
 
-# Set up a logger to log the scraped data
-logger = Logger.new(STDOUT)
+# Configure Selenium to use a headless browser
+options = Selenium::WebDriver::Chrome::Options.new
+options.add_argument('--headless') # Run in headless mode (without UI)
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
 
-# URL of the Glenorchy City Council planning applications page
-url = 'https://www.kentish.tas.gov.au/services/building-and-planning-services/planningapp/'
+# Open the page using Selenium WebDriver
+driver = Selenium::WebDriver.for :chrome, options: options
+driver.get('https://www.kentish.tas.gov.au/services/building-and-planning-services/planningapp')
 
-# Set custom user-agent to simulate a browser
-headers = {
-  "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-}
+# Give the page some time to load content (optional)
+sleep 2
 
-# Open and parse the main page with custom headers
-doc = Nokogiri::HTML(URI.open(url, headers))
+# Parse the page source using Nokogiri
+doc = Nokogiri::HTML(driver.page_source)
 
 # Step 3: Initialize the SQLite database
 db = SQLite3::Database.new "data.sqlite"
