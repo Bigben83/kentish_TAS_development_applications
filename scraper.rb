@@ -16,16 +16,6 @@ headers = {
   "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 }
 
-# Step 1: Fetch the page content
-begin
-  logger.info("Fetching page content from: #{url}")
-  page_html = open(url).read
-  logger.info("Successfully fetched page content.")
-rescue => e
-  logger.error("Failed to fetch page content: #{e}")
-  exit
-end
-
 # Open and parse the main page with custom headers
 doc = Nokogiri::HTML(URI.open(url, headers))
 
