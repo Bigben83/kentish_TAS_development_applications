@@ -9,7 +9,7 @@ require 'cgi'
 logger = Logger.new(STDOUT)
 
 # URL of the Glenorchy City Council planning applications page
-url = 'https://www.kentish.tas.gov.au/services/building-and-planning-services/planningapp'
+url = 'https://www.kentish.tas.gov.au/services/building-and-planning-services/planningapp/'
 
 # Step 1: Fetch the page content
 begin
