@@ -9,15 +9,12 @@ require 'cgi'
 logger = Logger.new(STDOUT)
 
 # URL of the Glenorchy City Council planning applications page
-url = 'https://www.kentish.tas.gov.au/services/building-and-planning-services/planningapp'
+url = 'https://www.kentish.tas.gov.au/services/building-and-planning-services/planningapp/'
 
 # Set custom user-agent to simulate a browser
 headers = {
   "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 }
-
-# Open and parse the main page with custom headers
-doc = Nokogiri::HTML(URI.open(url, headers))
 
 # Step 1: Fetch the page content
 begin
@@ -28,6 +25,9 @@ rescue => e
   logger.error("Failed to fetch page content: #{e}")
   exit
 end
+
+# Open and parse the main page with custom headers
+doc = Nokogiri::HTML(URI.open(url, headers))
 
 # Step 3: Initialize the SQLite database
 db = SQLite3::Database.new "data.sqlite"
